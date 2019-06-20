@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../css/lcd.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>智能机柜状态信息</title>
+<script src="../js/echarts.js"></script>
+</head>
+
+<body onload="startTime()">
+	<script>
+function startTime(){
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();// 在小于10的数字前加一个‘0’
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+	t=setTimeout(function(){startTime()},500);
+}
+function checkTime(i){
+	if (i<10){
+		i="0" + i;
+	}
+	return i;
+}
+</script>
+	<div style="height:600px; width:1024px;background-image:url('../pic/background.jpg');">
+		<div class="title">
+			<a >交通信息综合智能管控系统</a>
+			<p   class="sys_p1">路口名称：莲花路香梅路路口</p>
+			<p   class="sys_p2">设备编号：SZ755001</p>
+			<div  id="txt"  class="sys_div2"></div>
+		</div>
+		
+		<a></a>
+		
+		<div style="float:left;">
+			<ul>
+			<li><a href="sys.html"    ><img  style="position:absolute;left:5px;top:133px; "src="../icon/home.png"/>系统状态</a></li>
+			<li><a href="power.html"  ><img  style="position:absolute;left:5px;top:179px; "src="../icon/power.png"/>电力信息 </a></li>
+			<li><a href="ups.html"    ><img  style="position:absolute;left:5px;top:225px; "src="../icon/battery.png"/>UPS信息</a></li>
+			<li><a href="env.html"    ><img  style="position:absolute;left:5px;top:271px; "src="../icon/th.png"/>环境状态信息 </a></li>
+			<li><a href="door.html"   ><img  style="position:absolute;left:5px;top:317px; "src="../icon/door.png"/>柜门状态信息</a></li>
+			<li><a href="camera.html" ><img  style="position:absolute;left:5px;top:363px; "src="../icon/camera.png"/>监控画面 </a></li>
+			</ul>
+		</div>
+		
+<!--
+		----------------------------------------------------------------------分-----割----线-----------------------------------------------------------------------------
+-->
+		<div  class="realize">
+			<div style="position:absolute; left:165px; top:300px;color:#ACE934;font-weight:bold;">电池电量</div>
+			<div style="position:absolute; left:350px; top:300px;color:#ACE934;font-weight:bold;">电池平均温度</div>
+			<div id="char_sta" style="position:absolute; left:565px; top:300px;color:#ACE934;font-weight:bold;">充放电电流</div>
+				<div id="main" style="width:800px;height:300px">
+				<script type="text/javascript">
+				// 基于准备好的dom，初始化echarts实例
+					
+					var myChart = echarts.init(document.getElementById('main'));
+					var dataStyle = {
+						normal: {
+							label: {
+								show: false
+							},
+							labelLine: {
+								show: false
+							},
+							shadowBlur: 40,
+							shadowColor: 'rgba(40, 40, 40, 0.5)',
+						}
+					};
+
+					var placeHolderStyle = {
+						normal: {
+							color: 'rgba(44,59,70,1)', // 未完成的圆环的颜色
+							label: {
+								show: false
+							},
+							labelLine: {
+								show: false
+							}
+						},
+						emphasis: {
+							color: 'rgba(44,59,70,1)' // 未完成的圆环的颜色
+						}
+					};
+
+					option = {
+						title: {
+									text: '当前UPS信息',
+									textStyle:{
+										color:'#2FDD82',
+										fontstyle:'italic'
+									},
+								},
+						tooltip: {
+							show: false,
+						},
+						toolbox: {
+							show: false,
+						},
+						// color : ['#3dd4de','#b697cd','#a6f08f'],
+						//backgroundColor: '#43423D',
+						series: [{
+							name: 'Pie1',
+							type: 'pie',
+							clockWise: false,
+							radius: [80, 85],
+							itemStyle: dataStyle,
+							hoverAnimation: false,
+							center: ['25%', '65%'],
+							data: [{
+								value: 25,
+								label: {
+									normal: {
+										formatter: '{d}%',
+										position: 'center',
+										show: true,
+										textStyle: {
+											fontSize: '35',
+											fontWeight: 'normal',
+											color: '#3dd4de'
+										}
+									}
+								},
+								itemStyle: {
+									normal: {
+										color: '#3dd4de',
+										shadowColor: '#3dd4de',
+										shadowBlur: 10
+									}
+								}
+							}, {
+								value: 75,
+								name: 'invisible',
+								itemStyle: placeHolderStyle,
+							}]
+						}, {
+							name: 'Pie2',
+							type: 'pie',
+							clockWise: false,
+							radius: [80, 85],
+							itemStyle: dataStyle,
+							hoverAnimation: false,
+							center: ['50%', '65%'],
+							data: [{
+								value: 25,
+								label: {
+									normal: {
+										formatter: '{d}℃',
+										position: 'center',
+										show: true,
+										textStyle: {
+											fontSize: '35',
+											fontWeight: 'normal',
+											color: '#b697cd'
+										}
+									}
+								},
+								itemStyle: {
+									normal: {
+										color: '#b697cd',
+										shadowColor: '#b697cd',
+										shadowBlur: 10
+									}
+								}
+							}, {
+								value: 75,
+								name: 'invisible',
+								itemStyle: placeHolderStyle,
+							}]
+						}, {
+							name: 'Pie3',
+							type: 'pie',
+							clockWise: false,
+							radius: [80, 85],
+							itemStyle: dataStyle,
+							hoverAnimation: false,
+							center: ['75%', '65%'],
+							data: [{
+								value: 65,
+								label: {
+									normal: {
+										formatter: '{@option.series[2].data[0].value}mA',
+										position: 'center',
+										show: true,
+										textStyle: {
+											fontSize: '35',
+											fontWeight: 'normal',
+											color: '#a6f08f'
+										}
+									}
+								},
+								itemStyle: {
+									normal: {
+										color: '#a6f08f',
+										shadowColor: '#a6f08f',
+										shadowBlur: 10
+									}
+								}
+							}, {
+								value: 35,
+								name: 'invisible',
+								itemStyle: placeHolderStyle,
+							}]
+						}, ]
+					}
+						myChart.setOption(option);
+						
+						
+				function ups_info_refresh(obj)
+				{
+					var tmp_val=parseInt((obj.UPS.DATA.bms_info.pack_data[0].soc+obj.UPS.DATA.bms_info.pack_data[1].soc)/2);
+					option.series[0].data[0].value=tmp_val
+					option.series[0].data[1].value=100-tmp_val;
+					var aver_t_1=parseInt((obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T1+obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T2+obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T3)/3);
+					var aver_t_2=parseInt((obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T1+obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T2+obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T3)/3);
+					tmp_val=parseInt((aver_t_1+aver_t_2)/2);
+					option.series[1].data[0].value=tmp_val;
+					option.series[1].data[1].value=100-tmp_val;
+
+					tmp_val=Math.abs(obj.UPS.DATA.bms_info.inv_data.chgr_current);
+					option.series[2].data[0].value=tmp_val;
+					option.series[2].data[1].value=10000-tmp_val;	
+
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+					
+					x=document.getElementById("char_sta");
+					if(obj.UPS.DATA.bms_info.inv_data.chgr_current>0)
+					x.innerHTML="充电电流";
+					else if(obj.UPS.DATA.bms_info.inv_data.chgr_current<0)
+					x.innerHTML="放电电流";
+					else x.innerHTML="无电流";
+				
+				
+			
+					
+					
+					console.log("enter");	
+				}
+				function loadXMLDoc()
+					{
+						var xmlhttp;
+						
+						if (window.XMLHttpRequest)
+						{
+							// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+							xmlhttp=new XMLHttpRequest();
+						}
+						else
+						{
+							// IE6, IE5 浏览器执行代码 
+							xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+						}
+						xmlhttp.onreadystatechange=function()
+						{
+							if (xmlhttp.readyState==4 && xmlhttp.status==200)
+							{
+
+							  var obj= JSON.parse(xmlhttp.responseText);
+										ups_info_refresh(obj);//更新数据
+										
+							}
+						}
+						xmlhttp.open("GET","../json.txt",true);
+						xmlhttp.send();
+					}
+
+					function doUpdate()   
+					{   
+							loadXMLDoc();
+							window.setTimeout("doUpdate()", 1000);//每三秒刷新一次数据
+					}  
+					doUpdate(); 	
+						
+						
+			</script>
+			
+		
+		
+		</div>
+		</div>
+	</div>		
+</body>
+</html>

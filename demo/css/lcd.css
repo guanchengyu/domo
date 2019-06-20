@@ -1,0 +1,118 @@
+
+html,body{
+	background:#494843;
+	margin:0;
+}
+
+.title{
+	height:90px;
+	width:600px;
+	font-weight:bold;
+	font-size:40px;
+
+	color:#00FF00;
+	
+	padding:30px 0px 0px 255px;
+	float:left;
+	
+
+
+}
+.title_rt{
+	height:55px;
+	width:800px;
+/*
+	background-color:#F2F1F0;
+*/
+	float:left;
+}
+
+.realize{
+	height:480px;
+	width:800px;
+
+
+/*
+	background-color:#A5EF9D;
+*/
+	position:absolute;
+	left:220px;
+	top:120px;
+	float:left;
+	
+}
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 180px;
+/*
+    background-color: #36AB2A;
+*/
+}
+
+li a {
+    display: block;
+    color: #1A75EA;
+    padding: 8px 16px;
+	font-weight:bold;
+	padding:15px 5px 10px 30px;
+	border-bottom-style:solid;
+    border-width:1px;
+	border-color:#3A5531;
+    text-decoration: none;
+    height:20px;
+}
+
+li a.active {
+
+    background-color: #2477E0;
+
+    color: #67CE44;
+}
+
+li a:hover:not(.active) {
+
+    background-color: #2477E0;
+
+    color: #67CE44;
+}
+
+.sys_p1
+{
+	font-size:10px;
+	color:#8D0B0B;
+	 position:absolute;
+	 left:10px;
+	 top:520px;
+}
+
+.sys_p2
+{
+	font-size:10px;
+	color:#8D0B0B;
+	 position:absolute;
+	 left:10px;
+	 top:540px;
+}
+
+.sys_div1
+{
+	height:600px; 
+	width:1024px;
+	background-image:url('../pic/home.jpg');
+}
+
+
+
+.sys_div2
+{
+font-size:16px;
+color:#02CDB0; 
+position:absolute;
+left:935px;
+top:575px;
+}

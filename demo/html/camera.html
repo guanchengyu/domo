@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../css/lcd.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>智能机柜状态信息</title>
+
+</head>
+
+<body onload="startTime()">
+	<script>
+function startTime(){
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();// 在小于10的数字前加一个‘0’
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+	t=setTimeout(function(){startTime()},500);
+}
+function checkTime(i){
+	if (i<10){
+		i="0" + i;
+	}
+	return i;
+}
+</script>
+	<div style="height:600px; width:1024px;background-image:url('../pic/background.jpg');">
+		<div class="title">
+			<a >交通信息综合智能管控系统</a>
+			<p   class="sys_p1">路口名称：莲花路香梅路路口</p>
+			<p   class="sys_p2">设备编号：SZ755001</p>
+			<div  id="txt"  class="sys_div2"></div>
+		</div>
+		
+		<a></a>
+		
+		<div style="float:left;">
+			<ul>
+			<li><a href="sys.html"    ><img  style="position:absolute;left:5px;top:133px; "src="../icon/home.png"/>系统状态</a></li>
+			<li><a href="power.html"  ><img  style="position:absolute;left:5px;top:179px; "src="../icon/power.png"/>电力信息 </a></li>
+			<li><a href="ups.html"    ><img  style="position:absolute;left:5px;top:225px; "src="../icon/battery.png"/>UPS信息</a></li>
+			<li><a href="env.html"    ><img  style="position:absolute;left:5px;top:271px; "src="../icon/th.png"/>环境状态信息 </a></li>
+			<li><a href="door.html"   ><img  style="position:absolute;left:5px;top:317px; "src="../icon/door.png"/>柜门状态信息</a></li>
+			<li><a href="camera.html" ><img  style="position:absolute;left:5px;top:363px; "src="../icon/camera.png"/>监控画面 </a></li>
+			</ul>
+		</div>
+		
+<!--
+		----------------------------------------------------------------------分-----割----线-----------------------------------------------------------------------------
+-->
+		<div id="main" class="realize">
+			
+		<div style="height:200px;width:400px;float:left;">
+		<object type='application/x-vlc-plugin' pluginspage="http://www.videolan.org/" id='vlc' events='false' width="400" height="260">
+		<param name='mrl' value='rtsp://admin:byjt1234@192.168.3.68:554/MPEG-4/ch1/main/av_stream' />
+		<param name='volume' value='50' />
+		<param name='autoplay' value='true' />
+		<param name='loop' value='false' />
+		<param name='fullscreen' value='false' />
+		<param name='controls' value='false' />
+		</object>
+		</div>
+		
+		<div style="height:200px;width:400px;float:left;">
+		<object type='application/x-vlc-plugin' pluginspage="http://www.videolan.org/" id='vlc' events='false' width="400" height="260">
+		<param name='mrl' value='rtsp://admin:byjt1234@192.168.3.68:554/MPEG-4/ch1/main/av_stream' />
+		<param name='volume' value='50' />
+		<param name='autoplay' value='true' />
+		<param name='loop' value='false' />
+		<param name='fullscreen' value='false' />
+		<param name='controls' value='false' />
+		</object>
+		</div>
+		
+		<div style="height:200px;width:400px;float:left;">
+		<object type='application/x-vlc-plugin' pluginspage="http://www.videolan.org/" id='vlc' events='false' width="400" height="260">
+		<param name='mrl' value='rtsp://admin:byjt1234@192.168.3.68:554/MPEG-4/ch1/main/av_stream' />
+		<param name='volume' value='50' />
+		<param name='autoplay' value='true' />
+		<param name='loop' value='false' />
+		<param name='fullscreen' value='false' />
+		<param name='controls' value='false' />
+		</object>
+		</div>
+		
+		<div style="height:200px;width:400px;float:left;">
+		<object type='application/x-vlc-plugin' pluginspage="http://www.videolan.org/" id='vlc' events='false' width="400" height="260">
+		<param name='mrl' value='rtsp://admin:byjt1234@192.168.3.68:554/MPEG-4/ch1/main/av_stream' />
+		<param name='volume' value='50' />
+		<param name='autoplay' value='true' />
+		<param name='loop' value='false' />
+		<param name='fullscreen' value='false' />
+		<param name='controls' value='false' />
+		</object>
+		
+		</div>
+		
+		
+		</div>
+	</div>		
+</body>
+</html>

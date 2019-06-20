@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../css/lcd.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>智能机柜状态信息</title>
+<script src="../js/echarts.js"></script>
+</head>
+
+<body onload="startTime()">
+	<script>
+function startTime(){
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();// 在小于10的数字前加一个‘0’
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+	t=setTimeout(function(){startTime()},500);
+}
+function checkTime(i){
+	if (i<10){
+		i="0" + i;
+	}
+	return i;
+}
+</script>
+	<div style="height:600px; width:1024px;background-image:url('../pic/background.jpg');">
+		<div class="title">
+			<a >交通信息综合智能管控系统</a>
+			<p   class="sys_p1">路口名称：莲花路香梅路路口</p>
+			<p   class="sys_p2">设备编号：SZ755001</p>
+			<div  id="txt"  class="sys_div2"></div>
+		</div>
+		
+		<a></a>
+		
+		<div style="float:left;">
+			<ul>
+			<li><a href="sys.html"    ><img  style="position:absolute;left:5px;top:133px; "src="../icon/home.png"/>系统状态</a></li>
+			<li><a href="power.html"  ><img  style="position:absolute;left:5px;top:179px; "src="../icon/power.png"/>电力信息 </a></li>
+			<li><a href="ups.html"    ><img  style="position:absolute;left:5px;top:225px; "src="../icon/battery.png"/>UPS信息</a></li>
+			<li><a href="env.html"    ><img  style="position:absolute;left:5px;top:271px; "src="../icon/th.png"/>环境状态信息 </a></li>
+			<li><a href="door.html"   ><img  style="position:absolute;left:5px;top:317px; "src="../icon/door.png"/>柜门状态信息</a></li>
+			<li><a href="camera.html" ><img  style="position:absolute;left:5px;top:363px; "src="../icon/camera.png"/>监控画面 </a></li>
+			</ul>
+		</div>
+	<!--
+		----------------------------------------------------------------------分-----割----线-----------------------------------------------------------------------------
+	-->
+		<div id="main" class="realize">
+			
+		
+		  
+			<script type="text/javascript">
+
+				// 基于准备好的dom，初始化echarts实例
+					var myChart = echarts.init(document.getElementById('main'));
+					
+					// 指定图表的配置项和数据
+					var option = {
+						textStyle:{
+								color:'#79E0EE',
+								fontstyle:'italic'
+							},
+						title: {
+							text: '当前电力信息',
+							textStyle:{
+								color:'#79E0EE',
+								fontstyle:'italic'
+							},
+						},
+						tooltip: {},
+						legend: {
+							data:['']
+						},
+						xAxis: {
+							 name:'单位(mA)'
+						},
+						yAxis: {data: ["市电B","市电A","控制单元","治安","网络","信号系统","电子警察","CCTV监控","人脸识别","发电机"]},
+						series: [{
+							id:'bar',
+							name: '',
+							type: 'bar',
+							
+							 label: {
+										normal: {
+											position: 'right',
+											 formatter:function(params){
+												 
+												 return params.data+'mA';
+												 },
+											show: true,
+											color:'#CB00FF',
+											fontSize:'16',
+											fontWeight:'bold',
+											},	
+								},
+								barWidth: '55%',
+								 itemStyle:{
+									normal:{
+										color:new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+											offset: 0,
+											color: '#00b0ff'
+										}, {
+											offset: 0.8,
+											color: '#7052f4'
+										}], false),
+										 barBorderRadius: 10,
+									}
+								},
+							data: [50,100,54,700,800,450,320,120,108,506],
+						}],
+					};
+					myChart.setOption(option);	
+					
+			function power_info_refresh(obj)
+				{
+					var i=0;
+					for(i=0;i<10;i++)
+					option.series[0].data[i]=obj.MZR.DATA.data[13-i];
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+					console.log("enter");	
+				}
+								
+		
+		  
+			function loadXMLDoc()
+					{
+						var xmlhttp;
+						
+						if (window.XMLHttpRequest)
+						{
+							// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+							xmlhttp=new XMLHttpRequest();
+						}
+						else
+						{
+							// IE6, IE5 浏览器执行代码 
+							xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+						}
+						xmlhttp.onreadystatechange=function()
+						{
+							if (xmlhttp.readyState==4 && xmlhttp.status==200)
+							{
+
+							  var obj= JSON.parse(xmlhttp.responseText);
+										power_info_refresh(obj);//更新数据
+										
+							}
+						}
+						xmlhttp.open("GET","../json.txt",true);
+						xmlhttp.send();
+					}
+
+					function doUpdate()   
+					{   
+							loadXMLDoc();
+							window.setTimeout("doUpdate()", 1000);//每三秒刷新一次数据
+					}  
+					doUpdate(); 
+		  </script>
+		  
+		  
+		</div>
+	</div>		
+</body>
+</html>

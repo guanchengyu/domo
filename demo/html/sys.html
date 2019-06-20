@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../css/lcd.css" rel="stylesheet">
+
+<meta charset="utf-8">
+<title>智能机柜状态信息</title>
+
+</head>
+
+<body onload="startTime()">
+	<script>
+function startTime(){
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();// 在小于10的数字前加一个‘0’
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+	t=setTimeout(function(){startTime()},500);
+}
+function checkTime(i){
+	if (i<10){
+		i="0" + i;
+	}
+	return i;
+}
+</script>
+	<div class="sys_div1">
+		<div class="title">
+			<a >交通信息综合智能管控系统</a>
+			<p   class="sys_p1">路口名称：莲花路香梅路路口</p>
+			<p   class="sys_p2">设备编号：SZ755001</p>
+			<div  id="txt"  class="sys_div2"></div>
+		</div>
+		
+		
+		
+
+		<div style="float:left;">
+			<ul>
+			<li><a href="sys.html"    ><img  style="position:absolute;left:5px;top:133px; "src="../icon/home.png"/>系统状态</a></li>
+			<li><a href="power.html"  ><img  style="position:absolute;left:5px;top:179px; "src="../icon/power.png"/>电力信息 </a></li>
+			<li><a href="ups.html"    ><img  style="position:absolute;left:5px;top:225px; "src="../icon/battery.png"/>UPS信息</a></li>
+			<li><a href="env.html"    ><img  style="position:absolute;left:5px;top:271px; "src="../icon/th.png"/>环境状态信息 </a></li>
+			<li><a href="door.html"   ><img  style="position:absolute;left:5px;top:317px; "src="../icon/door.png"/>柜门状态信息</a></li>
+			<li><a href="camera.html" ><img  style="position:absolute;left:5px;top:363px; "src="../icon/camera.png"/>监控画面 </a></li>
+			</ul>
+		</div>
+
+
+
+<!--
+		----------------------------------------------------------------------分-----割----线-----------------------------------------------------------------------------
+-->
+
+			<div style=" width:160px;height:120px;  position:absolute;left:380px;top:180px;">
+				 <p id="e_chanhel"style="color:#A3E963">当前供电：市电A</p>
+				 <p id="e_vol" style="color:#A3E963">供电电压：220V</p>
+				 <p id="e_fre"  style="color:#A3E963">供电频率：50Hz</p>
+			</div>
+			
+			<div style=" width:180px;height:240px;  position:absolute;left:350px;top:330px;">
+				 <p id="ups_sta"style="color:#B71E14">UPS状态: 充电</p>
+				 <p id="ups_vol"style="color:#B71E14">电压: 24V</p>
+				 <p id="ups_cur"style="color:#B71E14">电流: 1050mA</p>
+				 <p id="ac_sta"style="color:#B71E14">交流电状态: 在线</p>
+				 <p id="b1_t" style="color:#B71E14">1号电池平均温度: 37℃</p>
+				 <p id="b2_t" style="color:#B71E14">2号电池平均温度: 38℃</p>
+			</div>
+			
+			<div style=" width:160px;height:120px;  position:absolute;left:810px;top:180px;">
+				 <p id="inside_t"  style="color:#E016E4">柜内平均温度: 37℃</p>
+				 <p id="inside_h"  style="color:#E016E4">柜内平均湿度: 78%</p>
+				 <p id="outside_t" style="color:#E016E4">柜外温度: 37℃</p>
+			</div>
+			
+			<div style=" width:160px;height:120px;  position:absolute;left:810px;top:380px;">
+				 <p id="sig_door_f"		style="color:#FCCB00">信号仓前门: 关闭</p>
+				 <p id="sig_door_b"		style="color:#FCCB00">信号仓背门: 关闭</p>
+				 <p id="dev_door_f"		style="color:#FCCB00">设备仓前门: 打开</p>
+				 <p id="dev_door_b"		style="color:#FCCB00">设备仓背门: 关闭</p>
+				 <p id="air_con_door"   style="color:#FCCB00">空调仓正门: 关闭</p>
+			</div>
+		
+
+	</div>	
+	<script>	
+	
+		function env_info_refresh(obj)
+			{
+				//-----------------------------------------------------------------------------power---------------------------------------------
+				// 当前供电  
+				x=document.getElementById("e_chanhel");
+				if(obj.MZR.DATA.data[12]>=100) //100ma
+				x.innerHTML="当前供电：市电A";
+				else if(obj.MZR.DATA.data[13]>=100)
+				x.innerHTML="当前供电：市电B";
+				else
+				x.innerHTML="未知";
+				// 供电电压
+				x=document.getElementById("e_vol");
+				x.innerHTML="供电电压："+obj.MZR.DATA.data[2]+"V";
+				// 供电频率
+				x=document.getElementById("e_fre");
+				x.innerHTML="供电频率: "+obj.MZR.DATA.data[1]+"Hz";
+				//-----------------------------------------------------------------------------ups-----------------------------------------------
+				// UPS状态
+				x=document.getElementById("ups_sta");
+				if(obj.UPS.DATA.bms_info.inv_data.chgr_current>0)
+				x.innerHTML="UPS状态: 充电";
+				else if(obj.UPS.DATA.bms_info.inv_data.chgr_current<0)
+				x.innerHTML="UPS状态: 放电";
+				else
+				x.innerHTML="UPS状态: 未知";
+				// 电压
+				x=document.getElementById("ups_vol");
+				x.innerHTML="电压: "+obj.UPS.DATA.bms_info.inv_data.chgr_voltage+"V";
+				// 电流
+				x=document.getElementById("ups_cur");
+				x.innerHTML="电流: "+obj.UPS.DATA.bms_info.inv_data.chgr_current+"mA";
+				// 交流电状态
+				x=document.getElementById("ac_sta");
+				if(obj.UPS.DATA.bms_info.inv_data.ac_lin_status)
+				x.innerHTML="交流电状态: 在线";
+				else
+				x.innerHTML="交流电状态: 断线";
+				// 1号电池平均温度
+				x=document.getElementById("b1_t");
+				var aver_t=parseInt((obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T1+obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T2+obj.UPS.DATA.bms_info.pack_data[0].module_data[0].T3)/3);
+				x.innerHTML="1号电池平均温度: "+aver_t+"℃";
+				// 2号电池平均温度
+				x=document.getElementById("b2_t");
+				var aver_t=parseInt((obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T1+obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T2+obj.UPS.DATA.bms_info.pack_data[0].module_data[1].T3)/3);
+				x.innerHTML="2号电池平均温度: "+aver_t+"℃";
+				//-----------------------------------------------------------------------------environment-----------------------------------------
+				// 柜内平均温度
+				x=document.getElementById("inside_t");
+				var aver_t=parseInt((obj.ENV.DATA.dtu_e_info.float_th_t.t1+obj.ENV.DATA.dtu_e_info.float_th_t.t2+obj.ENV.DATA.dtu_e_info.float_th_t.t3)/3);
+				x.innerHTML="柜内平均温度: "+aver_t+"℃";
+				// 柜内平均湿度
+				x=document.getElementById("inside_h");
+				x.innerHTML="柜内平均湿度: "+parseInt(obj.ENV.DATA.dtu_e_info.float_th_t.h1)+"%";
+				// 柜外温度
+				x=document.getElementById("outside_t");
+				x.innerHTML="柜外温度: "+parseInt(obj.ENV.DATA.dtu_e_info.float_th_t.t4)+"℃";
+				//-----------------------------------------------------------------------------door------------------------------------------------
+				// 信号仓前门
+				x=document.getElementById("sig_door_f");
+				var  door_warn =obj.ENV.DATA.dtu_e_info.sys_warn_t.door_warn;
+				if((door_warn&0x01)!=0)
+						x.innerHTML="空调仓正门: 关闭";
+				else					 
+						x.innerHTML="空调仓正门: 关闭";
+				// 信号仓背门
+				x=document.getElementById("sig_door_b");
+				if((door_warn&0x02)!=0)
+						x.innerHTML="空调仓正门: 关闭";
+				else					 
+						x.innerHTML="空调仓正门: 关闭";
+				// 设备仓前门
+				x=document.getElementById("dev_door_f");
+				if((door_warn&0x04)!=0)
+						x.innerHTML="空调仓正门: 关闭";
+				else					 
+						x.innerHTML="空调仓正门: 关闭";
+				// 设备仓背门
+				x=document.getElementById("dev_door_b");
+				if((door_warn&0x08)!=0)
+						x.innerHTML="空调仓正门: 关闭";
+				else					 
+						x.innerHTML="空调仓正门: 关闭";
+				// 空调仓正门
+				x=document.getElementById("air_con_door");
+				if((door_warn&0x10)!=0)
+						x.innerHTML="空调仓正门: 关闭";
+				else					 
+						x.innerHTML="空调仓正门: 关闭";
+				
+									    				
+			}
+		function loadXMLDoc()
+			{
+				var xmlhttp;
+				
+				if (window.XMLHttpRequest)
+				{
+					// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+					xmlhttp=new XMLHttpRequest();
+				}
+				else
+				{
+					// IE6, IE5 浏览器执行代码 
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState==4 && xmlhttp.status==200)
+					{
+
+					  var obj= JSON.parse(xmlhttp.responseText);
+							env_info_refresh(obj);//更新数据
+					}
+				}
+				xmlhttp.open("GET","../json.txt",true);
+				xmlhttp.send();
+			}
+
+			function doUpdate()   
+			{   
+					loadXMLDoc();
+					window.setTimeout("doUpdate()", 1000);//每三秒刷新一次数据
+			}  
+			doUpdate(); 
+	</script>	
+</body>
+</html>

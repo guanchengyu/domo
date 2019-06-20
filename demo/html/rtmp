@@ -1,0 +1,1 @@
+ffmpeg -i "rtsp://admin:byjt1234@192.168.3.68:554/h264/ch1/main/av_stream"  -vcodec copy -acodec copy -f flv -r 25 -s cif "rtmp://192.168.3.131:2018/live/stream"
